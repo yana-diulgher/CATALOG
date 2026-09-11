@@ -112,33 +112,50 @@ const products = [
 const clientSelect = document.getElementById("client");
 const catalogSelect = document.getElementById("catalog");
 const tbody = document.querySelector("#productTable tbody");
+const currencySelect = document.getElementById("currency");
 
+function convertCurrency(price, fromCurrency, toCurrency) {
+  
+  const rates = 
+        {
+            mdl: 1,
+            usd: 0.056,
+            eur: 0.051
+        }
+    
+  return price * rates[toCurrency] / rates[fromCurrency];}
 
 
 function renderTable() {
   const client = clientSelect.value;
   const category = catalogSelect.value;
-
+  
   tbody.innerHTML = ""; // очищаем таблицу перед добавлением новых строк
 
   const filtered = products.filter(p => p.category === category);
-
+  
   filtered.forEach(product => {
+
     const row = document.createElement("tr");//создание новой строки таблицы
+    
     row.innerHTML = `
       <td>${product.code}</td>
       <td>${product.name}</td>
       <td>${product.size.join(", ")}</td> 
       <td>${product.quantity}</td>
-      <td>${product.prices[client]} lei</td>
-    `;
-    tbody.appendChild(row); //Добавляет готовую строку в таблицу (<tbody>).
+      <td>${convertCurrency(product.prices[client],"mdl",currencySelect.value).toFixed(2)
+        + " " + currencySelect.options[currencySelect.selectedIndex].text
+      }</td>`; //ф-я конвертации цены под опред.клиента
+   
+      tbody.appendChild(row); //Добавляет готовую строку в таблицу (<tbody>).
   });
 }
+
 
 // обработчики событий селектора клиента и каталога
 clientSelect.addEventListener("change", renderTable);
 catalogSelect.addEventListener("change", renderTable);
+currencySelect.addEventListener("change", renderTable);
 
 // вызов функции 
 renderTable();
