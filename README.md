@@ -5,4 +5,4 @@
 <h4>2 шаг - перейдите в папку, введите: cd CATALOG</h4>
 <h4>3 шаг - запустите страницу, введите: start .\index.html</h4>
 
-<h3>Видео https://youtu.be/_zHSQ1cVaHU</h3>
+
