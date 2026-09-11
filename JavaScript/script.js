@@ -108,3 +108,37 @@ const products = [
     }
   }
 ];
+
+const clientSelect = document.getElementById("client");
+const catalogSelect = document.getElementById("catalog");
+const tbody = document.querySelector("#productTable tbody");
+
+
+
+function renderTable() {
+  const client = clientSelect.value;
+  const category = catalogSelect.value;
+
+  tbody.innerHTML = ""; // очищаем таблицу перед добавлением новых строк
+
+  const filtered = products.filter(p => p.category === category);
+
+  filtered.forEach(product => {
+    const row = document.createElement("tr");//создание новой строки таблицы
+    row.innerHTML = `
+      <td>${product.code}</td>
+      <td>${product.name}</td>
+      <td>${product.size.join(", ")}</td> 
+      <td>${product.quantity}</td>
+      <td>${product.prices[client]} lei</td>
+    `;
+    tbody.appendChild(row); //Добавляет готовую строку в таблицу (<tbody>).
+  });
+}
+
+// обработчики событий селектора клиента и каталога
+clientSelect.addEventListener("change", renderTable);
+catalogSelect.addEventListener("change", renderTable);
+
+// вызов функции 
+renderTable();
